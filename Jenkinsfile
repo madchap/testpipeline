@@ -34,9 +34,14 @@ pipeline {
                         // old hardcoded way def engagementId = 3 // Defectdojo
                         withCredentials([string(credentialsId: 'dd-jenkins', variable: 'ddApiToken')]) {
                             engagementId = defectDojo.getEngagementId('jenkins', 'hardcoded-test1', env.ddApiToken) // should create new engagement in product
-                            echo "Uploading to DefectDojo engagementId $engagementId..."
-                            testId = defectDojo.uploadScan_Anchore('anchoreengine-api-response-vulnerabilities-1.json', engagementId, env.ddApiToken)
-                            echo "Test ID is $testId."
+                            if (engagementId) {
+                                echo "Uploading to DefectDojo engagementId $engagementId..."
+                                testId = defectDojo.uploadScan_Anchore('anchoreengine-api-response-vulnerabilities-1.json', engagementId, env.ddApiToken)
+                                echo "Test ID is $testId."
+                            } else {
+                                echo "Could not retrieve a valid engagement ID. Not uploading."
+                                currentBuild.result = 'FAILURE'
+                            }
                         }
                     }
                 }
