@@ -33,7 +33,7 @@ pipeline {
                         )
                         // old hardcoded way def engagementId = 3 // Defectdojo
                         withCredentials([string(credentialsId: 'dd-jenkins', variable: 'ddApiToken')]) {
-                            engagementId = defectDojo.getEngagementId('jenkins', 'hardcoded-test1', env.ddApiToken) // should create new engagement in product
+                            engagementId = defectDojo.getEngagementId('jenkins', '', env.ddApiToken) // should create new engagement in product
                             if (engagementId) {
                                 echo "Uploading to DefectDojo engagementId $engagementId..."
                                 testId = defectDojo.uploadScan_Anchore('anchoreengine-api-response-vulnerabilities-1.json', engagementId, env.ddApiToken)
