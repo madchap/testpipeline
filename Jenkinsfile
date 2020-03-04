@@ -1,4 +1,4 @@
-@Library('prod-sec-libs') _
+@Library('prod-sec-libs@config-alignment') _
 
 pipeline {
     options {
